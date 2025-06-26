@@ -8,7 +8,6 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar navbar-expand-lg">
     <div class="container">
       <a class="navbar-brand" href="#">EMPLOYEE PORTAL</a>
@@ -23,7 +22,6 @@
 
   <div class="container mt-4">
 
-    <!-- Alerts -->
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         {% for category, message in messages %}
@@ -35,7 +33,6 @@
       {% endif %}
     {% endwith %}
 
-    <!-- Login Form -->
     {% if not username %}
     <div class="card p-4 mb-4">
       <h3 class="card-title">Login</h3>
@@ -65,13 +62,11 @@
         <button class="btn btn-primary mt-3">Add Employee</button>
       </form>
     </div>
-
-    <!-- Search Bar -->
+    
     <form method="get" class="mb-4">
       <input type="text" name="search" class="form-control" placeholder="Search by name or city..." value="{{ search }}">
     </form>
 
-    <!-- Employee Cards -->
     <div class="row row-cols-1 row-cols-md-3 g-4">
       {% for emp in employees %}
         <div class="col">
