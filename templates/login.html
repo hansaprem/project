@@ -2,34 +2,37 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Login | Employee System</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+  <title>Admin Login</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class="login-body">
+<body style="background-color: #1e1e1e; color: #f5f5dc; font-family: 'Segoe UI', sans-serif;">
 
-  <div class="login-container">
-    <h2 class="login-title">Admin Login</h2>
+  <div class="container mt-5">
+    <div class="card mx-auto shadow" style="max-width: 400px; background-color: #2a2a2a; border: none; color: #f5f5dc;">
+      
+      <div class="card-header text-center" style="background-color: #0dcaf0; color: #000;">
+        <h4 style="margin: 0;">Admin Login</h4>
+      </div>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        {% for category, message in messages %}
-          <div class="flash flash-{{ category }}">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    {% endwith %}
+      <div class="card-body">
+        {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
 
-    <form method="POST" action="{{ url_for('main') }}" class="login-form">
-      <input type="hidden" name="login" value="1">
+        <form method="POST">
+          <div class="mb-3">
+            <label class="form-label">Username</label>
+            <input type="text" name="username" class="form-control" required style="background-color: #3a3a3a; color: #fff; border: none;">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Password</label>
+            <input type="password" name="password" class="form-control" required style="background-color: #3a3a3a; color: #fff; border: none;">
+          </div>
+          <button type="submit" class="btn w-100" style="background-color: #0dcaf0; color: #000; font-weight: bold;">Login</button>
+        </form>
+      </div>
 
-      <label>Username</label>
-      <input type="text" name="username" required>
-
-      <label>Password</label>
-      <input type="password" name="password" required>
-
-      <button type="submit">Login</button>
-    </form>
+    </div>
   </div>
 
 </body>
