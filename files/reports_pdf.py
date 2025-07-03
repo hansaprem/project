@@ -1,0 +1,64 @@
+from flask import Blueprint, send_file
+from fpdf import FPDF
+import MySQLdb
+from io import BytesIO
+
+pdf_bp = Blueprint('pdf_bp', __name__)
+db = MySQLdb.connect(host="localhost", user="root", password="hansa123456", database="employee_system")
+cursor = db.cursor()
+
+
+@pdf_bp.route('/reports/employees/pdf')
+def export_employees_pdf():
+    cursor.execute("SELECT id, name, username, email, city FROM employees")
+    data = cursor.fetchall()
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, txt="Employee Report", ln=True, align='C')
+
+    col_widths = [10, 40, 35, 60, 30]
+    headers = ['ID', 'Name', 'Username', 'Email', 'City']
+
+    for i, header in enumerate(headers):
+        pdf.cell(col_widths[i], 10, header, border=1)
+    pdf.ln()
+
+    for row in data:
+        for i, item in enumerate(row):
+            pdf.cell(col_widths[i], 10, str(item), border=1)
+        pdf.ln()
+
+    pdf_bytes = pdf.output(dest='S').encode('latin1')
+    pdf_stream = BytesIO(pdf_bytes)
+
+    return send_file(pdf_stream, as_attachment=True, download_name="employees.pdf", mimetype="application/pdf")
+
+
+@pdf_bp.route('/reports/attendance/pdf')
+def export_attendance_pdf():
+    cursor.execute("SELECT id, employee_id, date, sign_in, sign_out FROM attendance")
+    data = cursor.fetchall()
+
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    pdf.cell(200, 10, txt="Attendance Report", ln=True, align='C')
+
+    col_widths = [10, 30, 40, 40, 40]
+    headers = ['ID', 'Emp ID', 'Date', 'Sign In', 'Sign Out']
+
+    for i, header in enumerate(headers):
+        pdf.cell(col_widths[i], 10, header, border=1)
+    pdf.ln()
+
+    for row in data:
+        for i, item in enumerate(row):
+            pdf.cell(col_widths[i], 10, str(item), border=1)
+        pdf.ln()
+
+    pdf_bytes = pdf.output(dest='S').encode('latin1')
+    pdf_stream = BytesIO(pdf_bytes)
+
+    return send_file(pdf_stream, as_attachment=True, download_name="attendance.pdf", mimetype="application/pdf")
