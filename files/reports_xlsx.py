@@ -18,7 +18,6 @@ def export_employees_xlsx():
     return send_file(output,as_attachment=True,download_name="Employees.xlsx",mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
 
 @xlsx_bp.route('/report/attendance/xlsx')
-@xlsx_bp.route('/reports/attendance/xlsx')
 def export_attendance_xlsx():
     cursor.execute("SELECT id, employee_id, date, sign_in, sign_out FROM attendance")
     data = cursor.fetchall()
