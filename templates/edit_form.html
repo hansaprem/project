@@ -9,8 +9,8 @@
 
   <nav class="navbar" style="background-color: #0dcaf0; padding: 15px;">
     <div class="container">
-      <a class="navbar-brand" href="{{ url_for('main') }}" style="color: #000; font-weight: bold;">EMPLOYEE PORTAL</a>
-      <a href="{{ url_for('logout') }}" class="btn btn-outline-dark btn-sm">Logout</a>
+      <a class="navbar-brand" href="{{ url_for('emp_bp.main') }}" style="color: #000; font-weight: bold;">EMPLOYEE PORTAL</a>
+      <a href="{{ url_for('auth_bp.logout') }}" class="btn btn-outline-dark btn-sm">Logout</a>
     </div>
   </nav>
 
@@ -58,7 +58,7 @@
 
           <div class="mt-4">
             <button class="btn btn-success">Update</button>
-            <a href="{{ url_for('main') }}" class="btn btn-outline-light ms-2">Cancel</a>
+            <a href="{{ url_for('emp_bp.main') }}" class="btn btn-outline-light ms-2">Cancel</a>
           </div>
         </form>
       </div>

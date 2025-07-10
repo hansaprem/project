@@ -1,6 +1,8 @@
 from flask import Blueprint, send_file
 from fpdf import FPDF
 import MySQLdb
+import qrcode,os
+from PIL import Image
 from io import BytesIO
 
 pdf_bp = Blueprint('pdf_bp', __name__)
@@ -62,3 +64,33 @@ def export_attendance_pdf():
     pdf_stream = BytesIO(pdf_bytes)
 
     return send_file(pdf_stream, as_attachment=True, download_name="attendance.pdf", mimetype="application/pdf")
+
+@pdf_bp.route('/reports/employee_cards/pdf')
+def employee_cards_pdf():
+    cursor.execute("SELECT id, name, username, photo FROM employees")
+    data = cursor.fetchall()
+
+    pdf = FPDF()
+    for emp in data:
+        emp_id, name, username, photo = emp
+        pdf.add_page()
+        pdf.set_font("Arial", size=14)
+        pdf.cell(200, 10, f"Employee Card - {name}", ln=True, align='C')
+
+        if photo:
+            pdf.image(f"static/uploads/{photo}", x=10, y=30, w=40, h=40)
+
+        qr_img = qrcode.make(str(username))
+        qr_path = f"static/temp_qr/{username}.png"
+        qr_img.save(qr_path)
+        pdf.image(qr_path, x=60, y=30, w=40, h=40)
+        os.remove(qr_path)
+
+        pdf.ln(60)
+        pdf.cell(100, 10, f"Name: {name}", ln=True)
+        pdf.cell(100, 10, f"Username: {username}", ln=True)
+
+    output = BytesIO()
+    pdf.output(output)
+    output.seek(0)
+    return send_file(output, as_attachment=True, download_name="employee_cards.pdf", mimetype="application/pdf")

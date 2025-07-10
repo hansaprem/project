@@ -7,6 +7,7 @@ from files.dashboard import dash_bp
 from files.reports_xlsx import xlsx_bp
 from files.reports_pdf import pdf_bp
 from files.reports_show import report_page_bp
+from files.chatbot import chatbot_bp
 
 app = Flask(__name__)
 app.secret_key = 'project123'
@@ -19,6 +20,7 @@ app.register_blueprint(dash_bp)
 app.register_blueprint(xlsx_bp)
 app.register_blueprint(pdf_bp)
 app.register_blueprint(report_page_bp)
+app.register_blueprint(chatbot_bp)
 
 if __name__ == '__main__':
     app.run(debug=True)

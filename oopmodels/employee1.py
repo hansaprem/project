@@ -7,3 +7,4 @@ class Employee:
         self.password = password
         self.city = city
         self.photo = photo
+    
